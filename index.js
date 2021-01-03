@@ -33,29 +33,246 @@ function runEmployeeTracker() {
                 "View employees",
                 "View roles",
                 "View departments",
-                "Update employee role",
-                "Exit"
+                "Update employee role", "Exit"
             ]
         })
         .then(function(answer) {
             switch (answer.action) {
                 case "Add an employee":
+                    addEmployee();
                     break;
                 case "Add a role":
+                    addRole();
                     break;
                 case "Add a department":
+                    addDepartment();
                     break;
                 case "View employees":
+                    viewEmployees();
                     break;
                 case "View roles":
+                    viewRoles();
                     break;
                 case "View departments":
+                    viewDepartments();
                     break;
                 case "Update employee role":
+                    updateEmployee();
                     break;
                 case "Exit":
                     break;
             }
         });
 }
+
+function addEmployee() {
+    inquirer
+        .prompt([{
+            name: "first_name",
+            type: "input",
+            message: "What is employee's first name?"
+        }, {
+            name: "last_name",
+            type: "input",
+            message: "What is employee's last name?"
+        }, {
+            name: "role",
+            type: "input",
+            message: "What is employee's role?"
+        }])
+        .then(function(answer) {
+            var query = connection.query(
+                "INSERT INTO employeeTable SET ?", {
+                    first_name: answer.first_name,
+                    last_name: answer.last_name,
+                    role_id: answer.role
+                },
+                function(err, res) {
+                    if (err) throw err;
+                    console.log("Added " + answer.first_name + " " + answer.last_name + " to the employee roster");
+                }
+            )
+        });
+}
+
+function addRole() {
+    inquirer
+        .prompt([{
+            name: "title",
+            type: "input",
+            message: "What is the role's title?"
+        }, {
+            name: "salary",
+            type: "input",
+            message: "What is this role's annual salary?"
+        }, {
+            name: "department_id",
+            type: "input",
+            message: "What is this role's department number?"
+        }])
+        .then(function(answer) {
+            var query = connection.query(
+                "INSERT INTO roleTable SET ?", {
+                    title: answer.title,
+                    salary: answer.salary,
+                    department_id: answer.department_id
+                },
+                function(err, res) {
+                    if (err) throw err;
+                    console.log("Added " + answer.title + " to the role table");
+                }
+            )
+        });
+}
+
+function addDepartment() {
+    inquirer
+        .prompt([{
+            name: "first_name",
+            type: "input",
+            message: "What is employee's first name?"
+        }, {
+            name: "last_name",
+            type: "input",
+            message: "What is employee's last name?"
+        }, {
+            name: "role",
+            type: "input",
+            message: "What is employee's role?"
+        }])
+        .then(function(answer) {
+            var query = connection.query(
+                "INSERT INTO employeeTable SET ?", {
+                    first_name: answer.first_name,
+                    last_name: answer.last_name,
+                    role_id: answer.role
+                },
+                function(err, res) {
+                    if (err) throw err;
+                    console.log("Added " + answer.first_name + " " + answer.last_name + " to the employee roster");
+                }
+            )
+        });
+}
+
+function viewEmployees() {
+    inquirer
+        .prompt([{
+            name: "first_name",
+            type: "input",
+            message: "What is employee's first name?"
+        }, {
+            name: "last_name",
+            type: "input",
+            message: "What is employee's last name?"
+        }, {
+            name: "role",
+            type: "input",
+            message: "What is employee's role?"
+        }])
+        .then(function(answer) {
+            var query = connection.query(
+                "INSERT INTO employeeTable SET ?", {
+                    first_name: answer.first_name,
+                    last_name: answer.last_name,
+                    role_id: answer.role
+                },
+                function(err, res) {
+                    if (err) throw err;
+                    console.log("Added " + answer.first_name + " " + answer.last_name + " to the employee roster");
+                }
+            )
+        });
+}
+
+function viewRoles() {
+    inquirer
+        .prompt([{
+            name: "first_name",
+            type: "input",
+            message: "What is employee's first name?"
+        }, {
+            name: "last_name",
+            type: "input",
+            message: "What is employee's last name?"
+        }, {
+            name: "role",
+            type: "input",
+            message: "What is employee's role?"
+        }])
+        .then(function(answer) {
+            var query = connection.query(
+                "INSERT INTO employeeTable SET ?", {
+                    first_name: answer.first_name,
+                    last_name: answer.last_name,
+                    role_id: answer.role
+                },
+                function(err, res) {
+                    if (err) throw err;
+                    console.log("Added " + answer.first_name + " " + answer.last_name + " to the employee roster");
+                }
+            )
+        });
+}
+
+function viewDepartments() {
+    inquirer
+        .prompt([{
+            name: "first_name",
+            type: "input",
+            message: "What is employee's first name?"
+        }, {
+            name: "last_name",
+            type: "input",
+            message: "What is employee's last name?"
+        }, {
+            name: "role",
+            type: "input",
+            message: "What is employee's role?"
+        }])
+        .then(function(answer) {
+            var query = connection.query(
+                "INSERT INTO employeeTable SET ?", {
+                    first_name: answer.first_name,
+                    last_name: answer.last_name,
+                    role_id: answer.role
+                },
+                function(err, res) {
+                    if (err) throw err;
+                    console.log("Added " + answer.first_name + " " + answer.last_name + " to the employee roster");
+                }
+            )
+        });
+}
+
+function updateEmployee() {
+    inquirer
+        .prompt([{
+            name: "first_name",
+            type: "input",
+            message: "What is employee's first name?"
+        }, {
+            name: "last_name",
+            type: "input",
+            message: "What is employee's last name?"
+        }, {
+            name: "role",
+            type: "input",
+            message: "What is employee's role?"
+        }])
+        .then(function(answer) {
+            var query = connection.query(
+                "INSERT INTO employeeTable SET ?", {
+                    first_name: answer.first_name,
+                    last_name: answer.last_name,
+                    role_id: answer.role
+                },
+                function(err, res) {
+                    if (err) throw err;
+                    console.log("Added " + answer.first_name + " " + answer.last_name + " to the employee roster");
+                }
+            )
+        });
+}
+
 runEmployeeTracker()
