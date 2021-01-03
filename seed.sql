@@ -1,3 +1,4 @@
+DROP DATABASE IF EXISTS employee_trackerDB;
 CREATE database employee_trackerDB;
 
 USE employee_trackerDB;
@@ -6,9 +7,9 @@ USE employee_trackerDB;
 --   * **id** - INT PRIMARY KEY
 --   * **name** - VARCHAR(30) to hold department name
 CREATE TABLE departmentTable (
-  id INT NOT NULL, 
+  department_id INT NOT NULL AUTO_INCREMENT, 
   department_name VARCHAR(30) NOT NULL,
-  PRIMARY KEY (id)
+  PRIMARY KEY (department_id)
 );
 -- * **role**:
 --   * **id** - INT PRIMARY KEY
@@ -16,11 +17,11 @@ CREATE TABLE departmentTable (
 --   * **salary** -  DECIMAL to hold role salary
 --   * **department_id** -  INT to hold reference to department role belongs to
 CREATE TABLE roleTable (
-  id INT NOT NULL,
+  role_id INT NOT NULL AUTO_INCREMENT,
   title VARCHAR(30) NOT NULL,  
   salary DECIMAL(10,2) NOT NULL,
   department_id INT NOT NULL,
-  PRIMARY KEY (id)
+  PRIMARY KEY (role_id)
 );
 -- * **employee**:
 --   * **id** - INT PRIMARY KEY
@@ -29,12 +30,12 @@ CREATE TABLE roleTable (
 --   * **role_id** - INT to hold reference to role employee has
 --   * **manager_id** - INT to hold reference to another employee that manages the employee being Created. This field may be null if the employee has no manager
 CREATE TABLE employeeTable (
-  id INT NOT NULL,
+  employee_id INT NOT NULL AUTO_INCREMENT,
   first_name VARCHAR(30) NOT NULL,
   last_name VARCHAR(30) NOT NULL,
   role_id INT NOT NULL,
   manager_id INT NULL,
-  PRIMARY KEY (id)
+  PRIMARY KEY (employee_id)
 );
 
 SELECT * FROM departmentTable;
