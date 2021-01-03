@@ -15,6 +15,7 @@ const connection = mysql.createConnection({
     database: "employee_trackerDB"
 });
 
+//node function prompts user to select which functionality they are interested in
 function runEmployeeTracker() {
     inquirer
         .prompt({
@@ -32,6 +33,7 @@ function runEmployeeTracker() {
             ]
         })
         .then(function(answer) {
+            //switch cases determine which function to run
             switch (answer.action) {
                 case "Add an employee":
                     addEmployee();
@@ -54,33 +56,41 @@ function runEmployeeTracker() {
                 case "Update employee role":
                     updateEmployeeRole();
                     break;
-                case "Exit":
+                case "Exit": //if exit is selected, end the program
                     break;
             }
         });
 }
-
+//function to prompt user for new employee details and add them to table
 function addEmployee() {
     inquirer
         .prompt([{
-            name: "first_name",
-            type: "input",
-            message: "What is employee's first name?"
-        }, {
-            name: "last_name",
-            type: "input",
-            message: "What is employee's last name?"
-        }, {
-            name: "role",
-            type: "input",
-            message: "What is employee's role id?"
-        }])
+                name: "first_name",
+                type: "input",
+                message: "What is employee's first name?"
+            }, {
+                name: "last_name",
+                type: "input",
+                message: "What is employee's last name?"
+            }, {
+                name: "role",
+                type: "input",
+                message: "What is employee's role id?"
+            },
+            {
+                name: "manager_id",
+                type: "input",
+                message: "What is the id of this employee's manager?"
+            }
+        ])
         .then(function(answer) {
             connection.query(
+                //inserts new employee into employeeTable with input parameters
                 "INSERT INTO employeeTable SET ?", {
                     first_name: answer.first_name,
                     last_name: answer.last_name,
-                    role_id: answer.role
+                    role_id: answer.role,
+                    manager_id: answer.manager_id
                 },
                 function(err) {
                     if (err) throw err;
@@ -90,7 +100,7 @@ function addEmployee() {
             runEmployeeTracker();
         });
 }
-
+//function to prompt user for new role details and add them to table
 function addRole() {
     inquirer
         .prompt([{
@@ -108,6 +118,7 @@ function addRole() {
         }])
         .then(function(answer) {
             connection.query(
+                //inserts new role into roleTable with input parameters
                 "INSERT INTO roleTable SET ?", {
                     title: answer.title,
                     salary: answer.salary,
@@ -121,7 +132,7 @@ function addRole() {
             runEmployeeTracker();
         });
 }
-
+//function to prompt user for new role details and add them to table
 function addDepartment() {
     inquirer
         .prompt([{
@@ -131,6 +142,7 @@ function addDepartment() {
         }])
         .then(function(answer) {
             connection.query(
+                //inserts new department into departmentTable with input parameters
                 "INSERT INTO departmentTable SET ?", {
                     department_name: answer.name
                 },
@@ -142,8 +154,9 @@ function addDepartment() {
             runEmployeeTracker();
         });
 }
-
+//function that returns table of employees, their roles, and departments
 function viewEmployees() {
+    //Return relevant information from each of the three tables, joining tables by role and department ID
     const query = `SELECT employeeTable.employee_id, employeeTable.first_name, employeeTable.last_name, roleTable.title, departmentTable.department_name FROM employeeTable 
     INNER JOIN roleTable ON (roleTable.role_id = employeeTable.role_id)
     INNER JOIN departmentTable ON (departmentTable.department_id = roleTable.department_id)
@@ -155,9 +168,10 @@ function viewEmployees() {
         runEmployeeTracker();
     });
 }
-
+//function that returns table of roles and their departments
 function viewRoles() {
-    const query = `SELECT roleTable.title, departmentTable.department_name FROM roleTable 
+    //Return relevant role and department information, joining tables by department ID
+    const query = `SELECT roleTable.role_id, roleTable.title, departmentTable.department_name FROM roleTable 
     INNER JOIN departmentTable ON (departmentTable.department_id = roleTable.department_id)
     ORDER BY roleTable.role_id;`;
     connection.query(query, (err, res) => {
@@ -167,7 +181,7 @@ function viewRoles() {
         runEmployeeTracker();
     });
 }
-
+//function that returns table of departments
 function viewDepartments() {
     const query = `SELECT * FROM departmentTable 
     ORDER BY departmentTable.department_id;`;
@@ -178,7 +192,7 @@ function viewDepartments() {
         runEmployeeTracker();
     });
 }
-
+//function to change an employee's role
 function updateEmployeeRole() {
     inquirer
         .prompt([{
@@ -190,6 +204,7 @@ function updateEmployeeRole() {
             type: "input",
             message: "What is employee's new role ID?"
         }]).then(function(answer) {
+            //updates a specified employee's role to a new role id
             connection.query(`UPDATE employeeTable 
         SET role_id = ${answer.role}
         WHERE employee_id = ${answer.id}`, function(err) {
